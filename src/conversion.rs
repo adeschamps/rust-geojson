@@ -25,7 +25,14 @@ fn create_point_type<T>(point: &geo::Point<T>) -> PointType
     let x: f64 = point.x().to_f64().unwrap();
     let y: f64 = point.y().to_f64().unwrap();
 
-    vec![x, y]
+    #[cfg(feature = "smallvec")]
+    {
+        PointType::from_slice(&[x, y])
+    }
+    #[cfg(not(feature = "smallvec"))]
+    {
+        vec![x, y]
+    }
 }
 
 fn create_line_string_type<T>(line_string: &geo::LineString<T>) -> LineStringType

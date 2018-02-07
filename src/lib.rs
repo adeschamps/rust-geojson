@@ -198,6 +198,11 @@ extern crate serde_json;
 extern crate geo;
 extern crate num_traits;
 
+#[cfg(feature = "smallvec")]
+extern crate smallvec;
+#[cfg(feature = "smallvec")]
+pub use smallvec::SmallVec;
+
 /// Bounding Boxes
 ///
 /// [GeoJSON Format Specification § 5]
@@ -208,6 +213,9 @@ pub type Bbox = Vec<f64>;
 ///
 /// [GeoJSON Format Specification § 3.1.1]
 /// (https://tools.ietf.org/html/rfc7946#section-3.1.1)
+#[cfg(feature = "smallvec")]
+pub type Position = SmallVec<[f64; 3]>;
+#[cfg(not(feature = "smallvec"))]
 pub type Position = Vec<f64>;
 
 pub type PointType = Position;
